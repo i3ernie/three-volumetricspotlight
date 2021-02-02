@@ -20,8 +20,7 @@ const Volumetric = function(){
 
     
 	material.uniforms.lightColor.value.set('white')
-    //material.uniforms.spotPosition.value	= this.position;
-    material.uniforms.spotPosition.value	= new THREE.Vector3( 1.5,2,0 ); //this.position;
+    material.uniforms.spotPosition.value	= this.position;
 };
 
 Volumetric.prototype = Object.assign( Object.create( THREE.Mesh.prototype ),{
@@ -69,7 +68,7 @@ const Volumetricspotlight = function(opts){
     
     this.volume = new Volumetric();
     this.light = new SpotLight( this.volume.material );
-
+    this.volume.position.set(0,1,0);
     THREE.Object3D.call( this );
     
     this.add( this.light );

@@ -1,0 +1,15 @@
+{
+    "name": "three-volumentricspotlight",
+    "version": "0.122.210231",
+    "license": "MIT",
+    "description": "domevents for three.js",
+    "author": "i3ernie",
+    "repository": "https://github.com/i3ernie/three-volumentricspotlight",
+    "dependencies": {
+        "three": "^0.122"
+    },
+    "devDependencies": {
+        "dat.gui": "latest",
+        "three-viewport": "git+https://github.com/i3ernie/three-viewport.git"
+    }
+}

@@ -1,15 +1,33 @@
 {
     "name": "three-volumentricspotlight",
-    "version": "0.122.210231",
+    "version": "0.123.210231",
     "license": "MIT",
     "description": "domevents for three.js",
     "author": "i3ernie",
     "repository": "https://github.com/i3ernie/three-volumentricspotlight",
     "dependencies": {
-        "three": "^0.122"
+        "three": "^0.123"
     },
     "devDependencies": {
+        "@rollup/plugin-replace": "latest",
+        "async": "latest",
         "dat.gui": "latest",
+        "gulp": "latest",
+        "rollup-plugin-buble": "latest",
+        "rollup-plugin-node-resolve": "latest",
+        "gulp-rollup": "latest",
+        "rollup": "latest",
         "three-viewport": "git+https://github.com/i3ernie/three-viewport.git"
-    }
+    },
+    "directories": {
+        "example": "examples",
+        "dist": "dist"
+    },
+    "files": [
+        "LICENSE",
+        "README.md",
+        "dist/volumetricspotlight.module.js",
+        "dist/volumetricspotlight.amd.js",
+        "package.json"
+    ]
 }

@@ -1,8 +1,11 @@
 import * as THREE from "../node_modules/three/build/three.module.js"
 
-const VolumetricSpotLightMaterial	= function(){
+const defaults = {
+	color : "cyan"
+};
+const VolumetricSpotLightMaterial	= function( opts ){
 	// 
-	var vertexShader	= [
+	const vertexShader	= [
 		'varying vec3 vNormal;',
 		'varying vec3 vWorldPosition;',
 		
@@ -17,7 +20,7 @@ const VolumetricSpotLightMaterial	= function(){
 			'gl_Position	= projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
 		'}',
 	].join('\n')
-	var fragmentShader	= [
+	const fragmentShader	= [
 		'varying vec3		vNormal;',
 		'varying vec3		vWorldPosition;',
 
@@ -52,11 +55,14 @@ const VolumetricSpotLightMaterial	= function(){
 			// set the final color
 			'gl_FragColor	= vec4( lightColor, intensity);',
 		'}',
-	].join('\n')
+	].join('\n');
 
+	let options = Object.assign({}, defaults, opts);
+
+	let color = new THREE.Color( options.color );
 	// create custom material from the shader code above
 	//   that is within specially labeled script tags
-	var material	= new THREE.ShaderMaterial({
+	const material	= new THREE.ShaderMaterial({
 		uniforms: { 
 			attenuation	: {
 				type	: "f",
@@ -72,7 +78,7 @@ const VolumetricSpotLightMaterial	= function(){
 			},
 			lightColor	: {
 				type	: "c",
-				value	: new THREE.Color('cyan')
+				value	: color
 			},
 		},
 		vertexShader	: vertexShader,
@@ -82,7 +88,8 @@ const VolumetricSpotLightMaterial	= function(){
 		transparent	: true,
 		depthWrite	: false,
 	});
-	return material
+
+	return material;
 }
 
 export default VolumetricSpotLightMaterial;

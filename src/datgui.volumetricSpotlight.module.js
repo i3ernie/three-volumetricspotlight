@@ -13,7 +13,7 @@ const addVolumetricSpotlightMaterial2DatGui	= function( spotlight, datGui ){
 	var options  = Object.assign({
 		anglePower	: uniforms['anglePower'].value,
 		attenuation	: uniforms['attenuation'].value,
-		lightColor	: '#'+uniforms.lightColor.value.getHexString(),
+		//lightColor	: '#'+uniforms.lightColor.value.getHexString(),
 		penumbra : .1,
 		angle : Math.PI/3,
 		decay : 1,
@@ -22,7 +22,7 @@ const addVolumetricSpotlightMaterial2DatGui	= function( spotlight, datGui ){
 	const onChange = function() {
 		uniforms['anglePower'].value	= options.anglePower
 		uniforms['attenuation'].value	= options.attenuation
-		uniforms.lightColor.value.set( options.lightColor ); 
+	//	uniforms.lightColor.value.set( options.lightColor ); 
 		spotlight.light.penumbra = options.penumbra;
 		spotlight.light.angle = options.angle;
 		spotlight.light.intensity = options.intensity;
@@ -39,7 +39,7 @@ const addVolumetricSpotlightMaterial2DatGui	= function( spotlight, datGui ){
 	datGui.add( options, 'intensity', 0.1, 3)		.listen().onChange( onChange );
 	datGui.add( options, 'decay', 1, 2)		.listen().onChange( onChange );
 
-	datGui.addColor( options, 'lightColor' )	.listen().onChange( onChange );
+	//datGui.addColor( options, 'lightColor' )	.listen().onChange( onChange );
 }
 
 export default addVolumetricSpotlightMaterial2DatGui;

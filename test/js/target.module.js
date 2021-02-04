@@ -36,7 +36,7 @@ import stage1 from "./stage1.module.js"
 
 	VP.loop.add(function( delta, now ){
 		var angle	= 0.1 * Math.PI*2*now;
-		target.set( 1*Math.cos(angle), 0, 1*Math.sin(angle) );
+		//target.set( 1*Math.cos(angle), 0, 1*Math.sin(angle) );
 		spotLight.update();
 	});
 
@@ -46,8 +46,8 @@ import stage1 from "./stage1.module.js"
 	//////////////////////////////////////////////////////////////////////////////////
 
 	let angle =.1;
-	const target	= new THREE.Vector3(1*Math.cos(angle),0,1*Math.sin(angle));
-	var spotLight	= new Volumetricspotlight({target: target });
+	const target	= [ 0, -10, 0 ];
+	var spotLight	= new Volumetricspotlight({target: target, color:"#ff0000" });
 	
 	spotLight.position.set( 1.5,2,0 );
 	

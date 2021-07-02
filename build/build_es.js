@@ -10,46 +10,15 @@ const transforms = {
     letConst : false
 };
 
-const build_Pack = function( done ){
-   
-    rollup.rollup({
-        input : 'src/domevents.pack.es.js',
-        external: ['../node_modules/three/build/three.module.js', '../../node_modules/three/build/three.module.js'],
-        
-        plugins:[
-            
-            resolve(),
-            
-            buble({
-				transforms: transforms
-            })
-        ]
-    }).then(( bundle ) => { 
-        bundle.write({
-            file: './dist/domevents.pack.es.js',
-            plugins:[
-                
-                replace({
-                    "../node_modules/three/" : "../../three/"
-                })
-            ],
-            
-            format: 'es',
-            name: 'three',
-            exports: 'named',
-            sourcemap: true
-          });
-          build_ES( done );
-    }).catch(
-        (err)=>{console.error(err);}
-    );
-};
 
 const build_ES = function( done ){
    
     rollup.rollup({
-        input : 'src/Domevents.es.js',
-        external: ['../node_modules/three/build/three.module.js', '../../node_modules/three/build/three.module.js'],
+        input : 'src/Volumetricspotlight.module.js',
+        external: [
+            '../node_modules/three/build/three.module.js', 
+            '../../node_modules/three/build/three.module.js'
+        ],
         
         plugins:[
             
@@ -61,7 +30,7 @@ const build_ES = function( done ){
         ]
     }).then(( bundle ) => { 
         bundle.write({
-            file: './dist/domevents.es.js',
+            file: './dist/volumetricspotlight.module.js',
             plugins:[
                 
                 replace({
@@ -83,8 +52,7 @@ const build_ES = function( done ){
 
 module.exports = function( done ){
     async.series([
-        build_ES,
-        build_Pack
+        build_ES
     ], function( err, data ){
         done();
     });

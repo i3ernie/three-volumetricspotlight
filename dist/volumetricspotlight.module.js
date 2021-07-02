@@ -1,6 +1,94 @@
-import * as THREE from "../node_modules/three/build/three.module.js";
-import VolumetricSpotLightMaterial from"./Material.Volumetricspotlight.module.js"; 
+import * as THREE from '../../three/build/three.module.js';
 
+const defaults$1 = {
+	color : "cyan"
+};
+const VolumetricSpotLightMaterial	= function( opts ){
+	// 
+	const vertexShader	= [
+		'varying vec3 vNormal;',
+		'varying vec3 vWorldPosition;',
+		
+		'void main(){',
+			'// compute intensity',
+			'vNormal		= normalize( normalMatrix * normal );',
+
+			'vec4 worldPosition	= modelMatrix * vec4( position, 1.0 );',
+			'vWorldPosition		= worldPosition.xyz;',
+
+			'// set gl_Position',
+			'gl_Position	= projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+		'}' ].join('\n');
+	const fragmentShader	= [
+		'varying vec3		vNormal;',
+		'varying vec3		vWorldPosition;',
+
+		'uniform vec3		lightColor;',
+
+		'uniform vec3		spotPosition;',
+
+		'uniform float		attenuation;',
+		'uniform float		anglePower;',
+
+		'void main(){',
+			'float intensity;',
+
+			//////////////////////////////////////////////////////////
+			// distance attenuation					//
+			//////////////////////////////////////////////////////////
+			'intensity	= distance(vWorldPosition, spotPosition)/attenuation;',
+			'intensity	= 1.0 - clamp(intensity, 0.0, 1.0);',
+
+			//////////////////////////////////////////////////////////
+			// intensity on angle					//
+			//////////////////////////////////////////////////////////
+			'vec3 normal	= vec3(vNormal.x, vNormal.y, abs(vNormal.z));',
+			'float angleIntensity	= pow( dot(normal, vec3(0.0, 0.0, 1.0)), anglePower );',
+			'intensity	= intensity * angleIntensity;',		
+			// 'gl_FragColor	= vec4( lightColor, intensity );',
+
+			//////////////////////////////////////////////////////////
+			// final color						//
+			//////////////////////////////////////////////////////////
+
+			// set the final color
+			'gl_FragColor	= vec4( lightColor, intensity);',
+		'}' ].join('\n');
+
+	let options = Object.assign({}, defaults$1, opts);
+
+	let color = new THREE.Color( options.color );
+	// create custom material from the shader code above
+	//   that is within specially labeled script tags
+	const material	= new THREE.ShaderMaterial({
+		uniforms: { 
+			attenuation	: {
+				type	: "f",
+				value	: 5.0
+			},
+			anglePower	: {
+				type	: "f",
+				value	: 1.2
+			},
+			spotPosition		: {
+				type	: "v3",
+				value	: new THREE.Vector3( 0, 0, 0 )
+			},
+			lightColor	: {
+				type	: "c",
+				value	: color
+			},
+		},
+		vertexShader	: vertexShader,
+		fragmentShader	: fragmentShader,
+		// side		: THREE.DoubleSide,
+		// blending	: THREE.AdditiveBlending,
+		transparent	: true,
+		depthWrite	: false,
+	});
+
+	return material;
+};
 
 const Volumetric = function( opts ){
     const defaults = {
@@ -75,8 +163,8 @@ SpotLight.prototype = Object.assign( Object.create( THREE.SpotLight.prototype ),
         this.shadow.camera.top	=  8;
         this.shadow.camera.bottom= -8;
 
-        this.shadow.mapSize.width	= 1024
-        this.shadow.mapSize.height	= 1024
+        this.shadow.mapSize.width	= 1024;
+        this.shadow.mapSize.height	= 1024;
 
         this.shadow.bias	= 0.0;
     }
@@ -112,7 +200,7 @@ const Volumetricspotlight = function( opts ){
             this.volume.lookAt( o.target );
             this.light.target.position.copy( o.target );
         } else {
-            let t = new THREE.Object3D()
+            let t = new THREE.Object3D();
             this.follow = t.position;
             t.position.set( o.target[0], o.target[1], o.target[2] );
             this.volume.lookAt( this.follow );
@@ -134,15 +222,6 @@ Volumetricspotlight.prototype = Object.assign( Object.create( THREE.Object3D.pro
     }
 });
 
-
-
-// doesnt seems to work - not moving with the spotLight
-// var helper	= new THREE.SpotLightHelper(spotLight)
-// scene.add(helper)
-// onRenderFcts.push(function(delta, now){
-// 	helper.update()
-// })
-
-
-export {Volumetricspotlight, Volumetric, SpotLight, VolumetricSpotLightMaterial};
 export default Volumetricspotlight;
+export { SpotLight, Volumetric, VolumetricSpotLightMaterial, Volumetricspotlight };
+//# sourceMappingURL=volumetricspotlight.module.js.map

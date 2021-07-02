@@ -8,6 +8,7 @@ const gulp = require('gulp');
 
 
 const build_vslAMD = require("./build/build_amd");
+const build_domeventsES = require("./build/build_es");
 
 var pkg = require('./package.json');
 
@@ -29,6 +30,6 @@ gulp.task("build", ( done ) => {
 
 gulp.task("buildAMD", build_vslAMD );
 
-//gulp.task("buildES", build_domeventsES );
+gulp.task("buildES", build_domeventsES );
 
 gulp.task('default', gulp.series('init', 'buildAMD') );

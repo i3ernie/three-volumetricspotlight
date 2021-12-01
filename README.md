@@ -26,7 +26,7 @@ Syntax highlighted code block
 [Link](url) and ![Image](src)
 ```
 
-For more details see [Basic writing and formatting syntax](https://i3ernie.github.com/three-volumetricspotlight/example/rgb.html).
+For more examples see [volumetricspotlight](https://i3ernie.github.io/three-volumetricspotlight/example/rgb.html).
 
 ### Jekyll Themes
 

@@ -1,5 +1,5 @@
 import * as THREE from "./vendor/three.module.js";
-import addVolumetricSpotlightMaterial2DatGui from "../../src/datgui.volumetricSpotlight.module.js"
+//import addVolumetricSpotlightMaterial2DatGui from "../../src/datgui.volumetricSpotlight.module.js"
 import Volumetricspotlight from "./volumetricspotlight.module.js"
 import Viewport from "./vendor/viewport.es.js"
 import stage1 from "./stage1.module.js"
@@ -81,4 +81,4 @@ VP.loop.add(function( delta, now ){
 });
 
 // add a DAT.Gui for fine tuning
-new addVolumetricSpotlightMaterial2DatGui( spotLight );
+//new addVolumetricSpotlightMaterial2DatGui( spotLight );

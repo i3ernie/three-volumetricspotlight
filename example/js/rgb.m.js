@@ -64,7 +64,7 @@ spotLight3.position.set( 0, 2, 1.5 );
 VP.scene.add( spotLight, spotLight2, spotLight3 );
 
 
-VP.scene.add( spotLight.light.target );
+VP.scene.add( spotLight.light.target, spotLight2.light.target, spotLight3.light.target );
 //////////////////////////////////////////////////////////////////////////////////
 //		link it with a spotLight					//
 //////////////////////////////////////////////////////////////////////////////////

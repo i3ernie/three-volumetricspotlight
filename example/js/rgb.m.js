@@ -39,6 +39,8 @@ VP.loop.add(function( delta, now ){
 	var angle	= 0.1 * Math.PI*2*now;
 	target.set( 1*Math.cos(angle), 0, 1*Math.sin(angle) );
 	spotLight.update();
+	spotLight2.update();
+	spotLight3.update();
 });
 
 
@@ -53,10 +55,16 @@ var spotLight	= new Volumetricspotlight({color:"green", target: target });
 spotLight.position.set( 1.5, 2, 0 );
 
 
-VP.scene.add( spotLight );
+var spotLight2	= new Volumetricspotlight({color:"red", target: target });
+spotLight2.position.set( -1.5, 2, 0 );
+
+var spotLight3	= new Volumetricspotlight({color:"blue", target: target });
+spotLight3.position.set( 0, 2, 1.5 );
+
+VP.scene.add( spotLight, spotLight2, spotLight3 );
 
 
-VP.scene.add( spotLight.light.target );
+VP.scene.add( spotLight.light.target, spotLight2.light.target, spotLight3.light.target );
 //////////////////////////////////////////////////////////////////////////////////
 //		link it with a spotLight					//
 //////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
-import { Raycaster, Vector2, EventDispatcher, Clock, WebGLRenderer, Color, Scene, PerspectiveCamera } from './three.module.js';
-import { OrbitControls } from './OrbitControls.js';
-export { OrbitControls } from './OrbitControls.js';
+import { Raycaster, Vector2, EventDispatcher, Clock, WebGLRenderer, Color, Scene, PerspectiveCamera } from 'three';
+import { OrbitControls } from 'OrbitControls';
+export { OrbitControls } from 'OrbitControls';
 
 /* 
  * To change this license header, choose License Headers in Project Properties.

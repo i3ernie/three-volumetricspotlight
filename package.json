@@ -1,12 +1,12 @@
 {
     "name": "three-volumentricspotlight",
-    "version": "0.123.210231",
+    "version": "0.141.210231",
     "license": "MIT",
     "description": "domevents for three.js",
     "author": "i3ernie",
     "repository": "https://github.com/i3ernie/three-volumentricspotlight",
     "dependencies": {
-        "three": "^0.123"
+        "three": "^0.141"
     },
     "devDependencies": {
         "@rollup/plugin-replace": "latest",

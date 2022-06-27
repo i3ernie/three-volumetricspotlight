@@ -1,6 +1,6 @@
 import * as THREE from "../../node_modules/three/build/three.module.js";
 import addVolumetricSpotlightMaterial2DatGui from "../../src/datgui.volumetricSpotlight.module.js"
-import Volumetricspotlight from "../../src/Volumetricspotlight.module.js"
+import Volumetricspotlight from "volumetricspotlight"
 import Viewport from "../../node_modules/three-viewport/dist/viewport.es.js"
 import stage1 from "./stage1.module.js"
 

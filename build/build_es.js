@@ -6,7 +6,7 @@ const async = require("async");
 
 const transforms = {
     arrow: false,
-    classes: true,
+    classes: false,
     letConst : false
 };
 
@@ -22,11 +22,11 @@ const build_ES = function( done ){
         
         plugins:[
             
-            resolve(),
-            
+            resolve()
+           /* 
             buble({
 				transforms: transforms
-            })
+            })*/
         ]
     }).then(( bundle ) => { 
         bundle.write({
@@ -34,7 +34,7 @@ const build_ES = function( done ){
             plugins:[
                 
                 replace({
-                    "../node_modules/three/" : "../../three/"
+                    "../node_modules/three/build/three.module.js" : "three"
                 })
             ],
             
@@ -43,7 +43,8 @@ const build_ES = function( done ){
             exports: 'named',
             sourcemap: true
           });
-          build_extDomeventsES( done );
+          //build_extDomeventsES( done );
+          done();
     }).catch(
         (err)=>{console.error(err);}
     );

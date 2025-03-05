@@ -10,15 +10,156 @@
             {
                 "imports": {
                     "three" : "https://unpkg.com/three/build/three.module.js",
+                    "viewport" : "./js/vendor/viewport.es.js",
                     "volumetricspotlight" : "../dist/volumetricspotlight.module.js",
-                    "OrbitControls" : "https://unpkg.com/three/examples/jsm/controls/OrbitControls.js"
+                    "OrbitControls" : "https://unpkg.com/three/examples/jsm/controls/OrbitControls.js",
+                    "dat.gui.module" : "./js/vendor/dat.gui.module.js"
                 }
             }
         </script>
         
-        <script type="module" src="js/basic.module.js"></script>
-    </head>
-<!-- include body -->
+        <script type="module" >
+            import * as THREE from "three";
+            import addVolumetricSpotlightMaterial2DatGui from "./js/datgui.volumetricSpotlight.module.js"
+            import Volumetricspotlight from "volumetricspotlight"
+            import Viewport from "viewport"
+            import stage1 from "./js/stage1.module.js"
+            import dat from "dat.gui.module"
+
+
+            let VP = new Viewport();
+
+            VP.init();
+            VP.start();
+            
+            //document.body.appendChild( VP.renderer.domElement );
+            VP.renderer.setClearColor('black', 0 );
+            VP.renderer.shadowMap.enabled	= true;
+
+            VP.camera.position.set(0,2,5);
+            VP.camera.lookAt(VP.scene.position);
+
+            // add a ambient light
+            VP.scene.add( new THREE.AmbientLight( 0x666666 ) );
+
+            VP.scene.fog	= new THREE.FogExp2( 0x000000, 0.1 );
+
+            
+            //////////////////////////////////////////////////////////////////////////////////
+            //		create a scene							                                //
+            //////////////////////////////////////////////////////////////////////////////////
+
+            stage1( VP );
+
+
+            //////////////////////////////////////////////////////////////////////////////////
+            //		animate the volumetric spotLight				                        //
+            //////////////////////////////////////////////////////////////////////////////////
+
+            VP.loop.add(function( delta, now ){
+                var angle	= 0.1 * Math.PI*2*now;
+                options.target.set( 1*Math.cos(angle), 0, 1*Math.sin(angle) );
+                spotLight.update();
+            });
+
+
+            //////////////////////////////////////////////////////////////////////////////////
+            //		add a volumetric spotligth					                            //
+            //////////////////////////////////////////////////////////////////////////////////
+
+            // options
+            let angle =.1;
+            const options  = Object.assign({
+
+                //lightColor	: '#'+uniforms.lightColor.value.getHexString(),
+                penumbra : .1,
+                angle : Math.PI/6,
+                decay : 1,
+                intensity : 2,
+                wireframe : true,
+                target	: new THREE.Vector3( 1*Math.cos(angle), 0, 1*Math.sin(angle) )
+
+            });    
+            
+            const spotLight	= new Volumetricspotlight( options );
+            
+            spotLight.position.set( 1.5, 2, 0 );
+            
+            VP.scene.add( spotLight );
+            VP.scene.add( spotLight.light.target );
+            
+
+            //////////////////////////////////////////////////////////////////////////////////
+            //		link it with a spotLight					                            //
+            //////////////////////////////////////////////////////////////////////////////////
+
+            let lightHelper = new THREE.SpotLightHelper( spotLight.light );
+            let shadowCameraHelper = new THREE.CameraHelper( spotLight.light.shadow.camera );
+
+            VP.loop.add(function( delta, now ){
+                lightHelper.update();
+                shadowCameraHelper.update();
+            });
+
+            //////////////////////////////////////////////////////////////////////////////////
+            //		add a DAT.Gui for fine tuning					                        //
+            //////////////////////////////////////////////////////////////////////////////////
+
+            const datGui	= new dat.GUI();
+            const uniforms	= spotLight.volume.material.uniforms;
+
+            Object.assign(options, {
+
+                anglePower	: uniforms['anglePower'].value,
+                attenuation	: uniforms['attenuation'].value,
+                lightColor	: '#'+uniforms.lightColor.value.getHexString()
+            });
+
+            const onChange = function() {
+                
+            //	uniforms.lightColor.value.set( options.lightColor ); 
+                
+                if ( options.wireframe ){
+                    VP.scene.add( lightHelper );
+                    VP.scene.add( shadowCameraHelper );
+                } else {
+                    VP.scene.remove( lightHelper );
+                    VP.scene.remove( shadowCameraHelper );
+                }
+            }
+
+            onChange();
+
+            // config datGui
+            datGui.add( options, 'anglePower', 0, 10).listen().onChange( ()=>{
+                uniforms['anglePower'].value = options.anglePower;
+            });
+            datGui.add( options, 'attenuation', 0, 10).listen().onChange( ()=>{
+                uniforms['attenuation'].value	= options.attenuation;
+            });
+            datGui.add( options, 'penumbra', 0, 1).listen().onChange( ()=>{
+                spotLight.light.penumbra = options.penumbra;
+            });
+            datGui.add( options, 'angle', .1, Math.PI*.5).listen().onChange( ()=>{
+                spotLight.light.angle = options.angle;
+            });
+            datGui.add( options, 'intensity', 0.1, 3).listen().onChange( ()=>{
+                spotLight.light.intensity = options.intensity;
+            });
+            datGui.add( options, 'decay', 1, 2).listen().onChange( ()=>{
+                spotLight.light.decay = options.decay;
+            });
+            datGui.addColor( options, 'lightColor' ).listen().onChange( ()=>{
+                spotLight.light.color = new THREE.Color( options.color );
+                spotLight.volume.material.uniforms.lightColor.value.set( options.lightColor ); 
+            });
+
+            datGui.add( options, 'wireframe', true).listen().onChange( onChange );
+            
+            
+                </script>
+            </head>
+        <!-- include body -->
 <body>
     
 </body>

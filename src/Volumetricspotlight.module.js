@@ -102,7 +102,7 @@ class Volumetricspotlight extends THREE.Object3D {
 
 
         this.volume = new Volumetric( o );
-        this.volume.position.set( 0,1,0 );
+        this.volume.position.set( 0, 1, 0 );
 
         o.color = this.volume.material.uniforms.lightColor.value;
 

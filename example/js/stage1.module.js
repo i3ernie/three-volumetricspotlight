@@ -84,4 +84,5 @@ const stage1 = function( VP ){
     mesh.position.set(0.5,geometry.radius,0)
     VP.scene.add( mesh );
 };
+
 export default stage1;

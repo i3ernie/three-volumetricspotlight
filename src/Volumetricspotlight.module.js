@@ -16,15 +16,7 @@ class Volumetric extends THREE.Mesh {
 
         const o = this.options = Object.assign({}, defaults, opts);
     
-       this.geometry = this.getGeo();
-        // var geometry	= new THREE.BoxGeometry( 3, 1, 3 );
-        // var material	= new THREE.MeshNormalMaterial({
-        // 	side	: THREE.DoubleSide
-        // });
-        // var material	= new THREE.MeshPhongMaterial({
-        // 	color		: 0x000000,
-        // 	wireframe	: true,
-        // })
+        this.geometry = this.getGeo();
         this.material = new VolumetricSpotLightMaterial( o );
 
         this.material.uniforms.spotPosition.value	= this.position;
@@ -83,7 +75,12 @@ class SpotLight extends THREE.SpotLight {
 
         this.shadow.bias	= 0.0;
     }
+
+    disableShadow () {
+        this.castShadow	= false;
+    }
 };
+
 
 const defaults = {
     intensity : 2,

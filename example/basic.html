@@ -77,6 +77,7 @@
                 decay : 1,
                 intensity : 2,
                 wireframe : true,
+                shadow: true,
                 target	: new THREE.Vector3( 1*Math.cos(angle), 0, 1*Math.sin(angle) )
 
             });    
@@ -150,10 +151,13 @@
                 spotLight.light.decay = options.decay;
             });
             datGui.addColor( options, 'lightColor' ).listen().onChange( ()=>{
-                spotLight.light.color = new THREE.Color( options.color );
+                spotLight.light.color = new THREE.Color( options.lightColor );
                 spotLight.volume.material.uniforms.lightColor.value.set( options.lightColor ); 
             });
 
+            datGui.add( options, 'shadow', true).listen().onChange( ()=>{
+                spotLight.light.castShadow = options.shadow;
+            });
             datGui.add( options, 'wireframe', true).listen().onChange( onChange );
             
             
